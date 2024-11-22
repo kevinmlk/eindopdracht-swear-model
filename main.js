@@ -96,6 +96,11 @@ loader.load( './scene.gltf', (gltf) => {
   modelPositionFolder.add(model.position, 'y').min(-10).max(10).step(0.1);
   modelPositionFolder.add(model.position, 'z').min(-10).max(10).step(0.1);
 
+  const modelRotationFolder = gui.addFolder('Model Rotation');
+  modelRotationFolder.add(model.rotation, 'x').min(-10).max(10).step(0.1);
+  modelRotationFolder.add(model.rotation, 'y').min(-10).max(10).step(0.1);
+  modelRotationFolder.add(model.rotation, 'z').min(-10).max(10).step(0.1);
+
   model.traverse(function (child) {
     if (child.isMesh) {
       child.castShadow = true;
