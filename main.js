@@ -36,20 +36,25 @@ camera.position.set( 4, 5, 11 );
 camera.lookAt( 0, 0, 0 );
 
 // Add a plane
-const planeGeometry = new THREE.PlaneGeometry( 20, 20, 32, 32 );
-const planeMaterial = new THREE.MeshStandardMaterial( { color: 0x555555, side: THREE.DoubleSide } );
-const plane = new THREE.Mesh( planeGeometry, planeMaterial );
+// const planeGeometry = new THREE.PlaneGeometry( 20, 20, 32, 32 );
+// const planeMaterial = new THREE.MeshStandardMaterial( { color: 0x555555, side: THREE.DoubleSide } );
+// const plane = new THREE.Mesh( planeGeometry, planeMaterial );
 
-// Rotate plane
-plane.rotation.x = - Math.PI / 2;
+// // Rotate plane
+// plane.rotation.x = - Math.PI / 2;
 
-// Add shadow
-plane.castShadow = false;
-plane.receiveShadow = true;
-// plane.position.y = - 0.5;
+// // Add shadow
+// plane.castShadow = false;
+// plane.receiveShadow = true;
 
 // Add the plane to the scene
-scene.add( plane );
+// scene.add( plane );
+
+// Load environment map
+new RGBELoader().load( './canary_wharf_4k.hdr', (environmentMap) => {
+  environmentMap.mapping = THREE.EquirectangularReflectionMapping;
+  scene.background = environmentMap;
+})
 
 // Add directional light
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 3, 100, .2, .5 );
