@@ -11,7 +11,6 @@ import { RGBELoader } from "three/examples/jsm/Addons.js";
 import { gsap } from "gsap";
 import * as dat from 'dat.gui';
 
-
 // Create a renderer
 const renderer = new THREE.WebGLRenderer( { antialias: true } );
 // Set the output color space
@@ -25,6 +24,9 @@ renderer.setAnimationLoop( animate );
 // Enable shadows
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+// Enable tonemapping
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = .25;
 // Add the renderer to the DOM
 document.body.appendChild( renderer.domElement );
 
@@ -58,11 +60,12 @@ camera.lookAt( 0, 0, 0 );
 new RGBELoader().load( './canary_wharf_4k.hdr', (environmentMap) => {
   environmentMap.mapping = THREE.EquirectangularReflectionMapping;
   scene.background = environmentMap;
+  scene.environment = environmentMap;
 })
 
 // Add directional light
-const directionalLight = new THREE.DirectionalLight( 0xffffff, 3, 100, .2, .5 );
-directionalLight.position.set( 0, 25, 0 );
+const directionalLight = new THREE.DirectionalLight( 0xffffff, 5 );
+directionalLight.position.set( 0, 10, 0 );
 
 // Allow light to cast shadows
 directionalLight.castShadow = true;
@@ -70,17 +73,16 @@ directionalLight.castShadow = true;
 // Add directional light to scene
 scene.add( directionalLight );
 
+// Add ambient light
+const ambientLight = new THREE.AmbientLight( 0xffffff, .1 );
+scene.add( ambientLight );
+
 // dat GUI controls for directional light
 const directionalLightFolder = gui.addFolder('Directional Light');
 directionalLightFolder.add( directionalLight, 'intensity' ).min( 0 ).max( 10 ).step( 0.1 );
 directionalLightFolder.add( directionalLight.position, 'x' ).min( - 20 ).max( 20 ).step( 0.1 );
 directionalLightFolder.add( directionalLight.position, 'y' ).min( - 20 ).max( 20 ).step( 0.1 );
 directionalLightFolder.add( directionalLight.position, 'z' ).min( - 20 ).max( 20 ).step( 0.1 );
-
-
-// Add ambient light
-const ambientLight = new THREE.AmbientLight( 0xffffff, .5 );
-scene.add( ambientLight );
 
 // Instantiate a loader
 const loader = new GLTFLoader().setPath( './' );
