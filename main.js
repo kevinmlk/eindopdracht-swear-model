@@ -71,10 +71,11 @@ directionalLight.castShadow = true;
 scene.add( directionalLight );
 
 // dat GUI controls for directional light
-gui.add( directionalLight, 'intensity' ).min( 0 ).max( 10 ).step( 0.1 );
-gui.add( directionalLight.position, 'x' ).min( - 20 ).max( 20 ).step( 0.1 );
-gui.add( directionalLight.position, 'y' ).min( - 20 ).max( 20 ).step( 0.1 );
-gui.add( directionalLight.position, 'z' ).min( - 20 ).max( 20 ).step( 0.1 );
+const directionalLightFolder = gui.addFolder('Directional Light');
+directionalLightFolder.add( directionalLight, 'intensity' ).min( 0 ).max( 10 ).step( 0.1 );
+directionalLightFolder.add( directionalLight.position, 'x' ).min( - 20 ).max( 20 ).step( 0.1 );
+directionalLightFolder.add( directionalLight.position, 'y' ).min( - 20 ).max( 20 ).step( 0.1 );
+directionalLightFolder.add( directionalLight.position, 'z' ).min( - 20 ).max( 20 ).step( 0.1 );
 
 
 // Add ambient light
@@ -88,6 +89,12 @@ const loader = new GLTFLoader().setPath( './' );
 loader.load( './scene.gltf', (gltf) => {
 
   const model = gltf.scene;
+
+  // Add dat GUI controls for model position
+  const modelPositionFolder = gui.addFolder('Model Position');
+  modelPositionFolder.add(model.position, 'x').min(-10).max(10).step(0.1);
+  modelPositionFolder.add(model.position, 'y').min(-10).max(10).step(0.1);
+  modelPositionFolder.add(model.position, 'z').min(-10).max(10).step(0.1);
 
   model.traverse(function (child) {
     if (child.isMesh) {
