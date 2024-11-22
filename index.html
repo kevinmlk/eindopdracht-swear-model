@@ -7,7 +7,68 @@
     <title>Vite App</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="controls">
+        <!-- Shoe size controls -->
+        <div class="control">
+          <label for="shoe-size">Shoe size</label>
+          <input id="shoe-size" type="range" min="1" max="10" value="5">
+        </div>
+        <!-- Shoe color controls -->
+         <div class="color-options">
+          <!-- Laces color -->
+           <div class="control">
+             <label for="laces-color">Laces color</label>
+             <input id="laces-color" type="color" value="#ff0000">
+           </div>
+
+           <!-- Sole color -->
+           <div class="control">
+             <label for="sole-color">Sole color</label>
+             <input id="sole-color" type="color" value="#000000">
+           </div>
+
+           <!-- Upper color -->
+           <div class="control">
+             <label for="upper-color">Upper color</label>
+             <input id="upper-color" type="color" value="#ffffff">
+           </div>
+
+         </div>
+
+         <!-- Material options -->
+         <div class="material-options">
+          <!-- Laces color -->
+           <div class="control">
+             <label for="laces-material">Laces material</label>
+             <select id="laces-material">
+               <option value="plastic">Plastic</option>
+               <option value="metal">Metal</option>
+             </select>
+           </div>
+
+           <!-- Sole material -->
+           <div class="control">
+             <label for="sole-material">Sole material</label>
+             <select id="sole-material">
+               <option value="rubber">Rubber</option>
+               <option value="metal">Metal</option>
+             </select>
+           </div>
+
+           <!-- Upper material -->
+           <div class="control">
+             <label for="upper-material">Upper material</label>
+             <select id="upper-material">
+               <option value="plastic">Plastic</option>
+               <option value="metal">Metal</option>
+             </select>
+           </div>
+
+         </div>
+
+      </div>
+    </div>
     <script type="module" src="/main.js"></script>
   </body>
 </html>
