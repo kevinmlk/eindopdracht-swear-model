@@ -8,6 +8,8 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { RGBELoader } from "three/examples/jsm/Addons.js";
+import { gsap } from "gsap";
+import * as dat from 'dat.gui';
 
 
 // Create a renderer
@@ -26,6 +28,8 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 // Add the renderer to the DOM
 document.body.appendChild( renderer.domElement );
 
+// GUI
+const gui = new dat.GUI();
 
 // Create a scene
 const scene = new THREE.Scene();
@@ -65,6 +69,17 @@ directionalLight.castShadow = true;
 
 // Add directional light to scene
 scene.add( directionalLight );
+
+// dat GUI controls for directional light
+gui.add( directionalLight, 'intensity' ).min( 0 ).max( 10 ).step( 0.1 );
+gui.add( directionalLight.position, 'x' ).min( - 20 ).max( 20 ).step( 0.1 );
+gui.add( directionalLight.position, 'y' ).min( - 20 ).max( 20 ).step( 0.1 );
+gui.add( directionalLight.position, 'z' ).min( - 20 ).max( 20 ).step( 0.1 );
+
+
+// Add ambient light
+const ambientLight = new THREE.AmbientLight( 0xffffff, .5 );
+scene.add( ambientLight );
 
 // Instantiate a loader
 const loader = new GLTFLoader().setPath( './' );
