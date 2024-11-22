@@ -7,14 +7,8 @@ import "./style.css";
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { RGBELoader } from "three/examples/jsm/Addons.js";
 
-// Create a scene
-const scene = new THREE.Scene();
-
-// Create a camera
-const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-camera.position.set( 4, 5, 11 );
-camera.lookAt( 0, 0, 0 );
 
 // Create a renderer
 const renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -32,6 +26,15 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 // Add the renderer to the DOM
 document.body.appendChild( renderer.domElement );
 
+
+// Create a scene
+const scene = new THREE.Scene();
+
+// Create a camera
+const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
+camera.position.set( 4, 5, 11 );
+camera.lookAt( 0, 0, 0 );
+
 // Add a plane
 const planeGeometry = new THREE.PlaneGeometry( 20, 20, 32, 32 );
 const planeMaterial = new THREE.MeshStandardMaterial( { color: 0x555555, side: THREE.DoubleSide } );
@@ -48,16 +51,15 @@ plane.receiveShadow = true;
 // Add the plane to the scene
 scene.add( plane );
 
-// Create a light
-const spotLight = new THREE.SpotLight( 0xffffff, 3, 100, .2, .5 );
-spotLight.position.set( 0, 25, 0 );
-spotLight.castShadow = true;
-spotLight.shadow.bias = - 0.0001;
+// Add directional light
+const directionalLight = new THREE.DirectionalLight( 0xffffff, 3, 100, .2, .5 );
+directionalLight.position.set( 0, 25, 0 );
 
-// Add the light to the scene
-scene.add( spotLight );
+// Allow light to cast shadows
+directionalLight.castShadow = true;
 
-
+// Add directional light to scene
+scene.add( directionalLight );
 
 // Instantiate a loader
 const loader = new GLTFLoader().setPath( './' );
