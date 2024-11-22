@@ -25,7 +25,7 @@ renderer.setAnimationLoop( animate );
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 // Enable tonemapping
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMapping = THREE.PCFSoftShadowMap;
 renderer.toneMappingExposure = .25;
 // Add the renderer to the DOM
 document.body.appendChild( renderer.domElement );
@@ -107,6 +107,10 @@ loader.load( './scene.gltf', (gltf) => {
     if (child.isMesh) {
       child.castShadow = true;
       child.receiveShadow = true;
+
+      if (child.material.map) {
+        child.material.envMapIntensity = .5;
+      }
     }
   });
 
