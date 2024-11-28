@@ -7,7 +7,8 @@ import "./style.css";
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { RGBELoader } from "three/examples/jsm/Addons.js";
+// import { RGBELoader } from "three/examples/jsm/Addons.js";
+import { EXRLoader } from "three/examples/jsm/Addons.js";
 import { gsap } from "gsap";
 import * as dat from 'dat.gui';
 
@@ -41,27 +42,21 @@ const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.inner
 camera.position.set( 4, 5, 11 );
 camera.lookAt( 0, 0, 0 );
 
-// Add a plane
-// const planeGeometry = new THREE.PlaneGeometry( 20, 20, 32, 32 );
-// const planeMaterial = new THREE.MeshStandardMaterial( { color: 0x555555, side: THREE.DoubleSide } );
-// const plane = new THREE.Mesh( planeGeometry, planeMaterial );
-
-// // Rotate plane
-// plane.rotation.x = - Math.PI / 2;
-
-// // Add shadow
-// plane.castShadow = false;
-// plane.receiveShadow = true;
-
-// Add the plane to the scene
-// scene.add( plane );
-
 // Load environment map
-new RGBELoader().load( './canary_wharf_4k.hdr', (environmentMap) => {
-  environmentMap.mapping = THREE.EquirectangularReflectionMapping;
-  scene.background = environmentMap;
-  scene.environment = environmentMap;
-})
+new EXRLoader().load('./ParkingLot_2K-HDR.exr', (texture) => {
+  texture.mapping = THREE.EquirectangularReflectionMapping;
+
+  const pmremGenerator = new THREE.PMREMGenerator(renderer);
+  const envMap = pmremGenerator.fromEquirectangular(texture).texture;
+
+  scene.background = envMap;
+  scene.environment = envMap;
+
+  // Clean up original texture to save memory
+  texture.dispose();
+  // Clean up generator
+  pmremGenerator.dispose();
+});
 
 // Add directional light
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 5 );
