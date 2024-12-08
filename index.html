@@ -136,5 +136,73 @@
       </form>
     </div>
     <script type="module" src="/main.js"></script>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get('id');
+      console.log(userId);
+      const addToCartButton = document.querySelector('button');
+
+      addToCartButton.addEventListener('click', (event) => {
+      event.preventDefault(); // Prevent form submission or page reload
+
+      // Gather selected options
+      const shoeSize = document.getElementById('shoe-size').value;
+      const lacesColor = document.getElementById('laces-color').value;
+      const soleColor = document.getElementById('sole-color').value;
+      const upperColor = document.getElementById('upper-color').value;
+      // const lowerColor = document.getElementById('lower-color').value;
+      const lacesMaterial = document.getElementById('laces-material').value;
+      const soleMaterial = document.getElementById('sole-material').value;
+      const upperMaterial = document.getElementById('upper-material').value;
+      // const lowerMaterial = document.getElementById('lower-material').value;
+
+      // Create a configuration object
+      const config = {
+        userId: userId,
+        sneakerConfig: {
+          shoeSize: shoeSize,
+          colorOptions: {
+            laces: lacesColor,
+            sole: soleColor,
+            upper: upperColor,
+          },
+          materialOptions: {
+            laces: lacesMaterial,
+            sole: soleMaterial,
+            upper: upperMaterial,
+          },
+          charms: ["star", "heart"],
+          patterns: "stripes",
+          customText: "Custom Text"
+        }
+      };
+
+      // Send the configuration to the Vue.js store
+      sendConfigToVueStore(config);
+
+      // Send the user to the store
+      window.location.href = `https://eindopdracht-swear-frontend.vercel.app/cart`;
+    });
+
+      // Send the configuration to the Vue.js store
+      function sendConfigToVueStore(config) {
+        fetch('http://localhost:3000/api/v1/cart/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(config),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log('Successfully sent config to Vue.js store:', data);
+          })
+          .catch((error) => {
+            console.error('Error sending config to Vue.js store:', error);
+          });
+      };
+
+
+    </script>
   </body>
 </html>
