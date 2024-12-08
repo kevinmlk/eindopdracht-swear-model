@@ -7,7 +7,8 @@ import "./style.css";
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { RGBELoader } from "three/examples/jsm/Addons.js";
+// import { RGBELoader } from "three/examples/jsm/Addons.js";
+import { EXRLoader } from "three/examples/jsm/Addons.js";
 import { gsap } from "gsap";
 import * as dat from 'dat.gui';
 
@@ -41,27 +42,21 @@ const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.inner
 camera.position.set( 4, 5, 11 );
 camera.lookAt( 0, 0, 0 );
 
-// Add a plane
-// const planeGeometry = new THREE.PlaneGeometry( 20, 20, 32, 32 );
-// const planeMaterial = new THREE.MeshStandardMaterial( { color: 0x555555, side: THREE.DoubleSide } );
-// const plane = new THREE.Mesh( planeGeometry, planeMaterial );
-
-// // Rotate plane
-// plane.rotation.x = - Math.PI / 2;
-
-// // Add shadow
-// plane.castShadow = false;
-// plane.receiveShadow = true;
-
-// Add the plane to the scene
-// scene.add( plane );
-
 // Load environment map
-new RGBELoader().load( './canary_wharf_4k.hdr', (environmentMap) => {
-  environmentMap.mapping = THREE.EquirectangularReflectionMapping;
-  scene.background = environmentMap;
-  scene.environment = environmentMap;
-})
+new EXRLoader().load('./ParkingLot_2K-HDR.exr', (texture) => {
+  texture.mapping = THREE.EquirectangularReflectionMapping;
+
+  const pmremGenerator = new THREE.PMREMGenerator(renderer);
+  const envMap = pmremGenerator.fromEquirectangular(texture).texture;
+
+  scene.background = envMap;
+  scene.environment = envMap;
+
+  // Clean up original texture to save memory
+  texture.dispose();
+  // Clean up generator
+  pmremGenerator.dispose();
+});
 
 // Add directional light
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 5 );
@@ -91,6 +86,10 @@ const loader = new GLTFLoader().setPath( './' );
 loader.load( './scene.gltf', (gltf) => {
 
   const model = gltf.scene;
+  let lacesMesh = null;
+  let soleMesh = null;
+  let upperMesh = null;
+  let lowerMesh = null;
 
   // Add dat GUI controls for model position
   const modelPositionFolder = gui.addFolder('Model Position');
@@ -107,6 +106,27 @@ loader.load( './scene.gltf', (gltf) => {
     if (child.isMesh) {
       child.castShadow = true;
       child.receiveShadow = true;
+      console.log(`Mesh Name: ${child.name}`);
+
+      // Identify the laces mesh by its name
+      if (child.name === 'Plane_WhiteSatin_0') {
+        lacesMesh = child;
+      }
+
+      // Identify the sole mesh by its name
+      if (child.name === 'Cube005_WhiteSole_0') {
+        soleMesh = child;
+      }
+
+      // Identify the upper mesh by its name
+      if (child.name === 'Cube006_WhiteSuede_0') {
+        upperMesh = child;
+      }
+
+      // Identify the lower mesh by its name
+      if (child.name === 'Cube005_WhiteLeather_0') {
+        lowerMesh = child;
+      }
 
       if (child.material.map) {
         child.material.envMapIntensity = .5;
@@ -118,6 +138,46 @@ loader.load( './scene.gltf', (gltf) => {
   model.scale.set(0.003, 0.003, 0.003);
   scene.add(model);
 
+  const lacesColorSelect = document.getElementById('laces-color');
+  const soleColorSelect = document.getElementById('sole-color');
+  const upperColorSelect = document.getElementById('upper-color');
+  const lowerColorSelect = document.getElementById('lower-color');
+
+  lacesColorSelect.addEventListener('change', (event) => {
+    const selectedColor = event.target.value;
+
+    if (lacesMesh) {
+      // Update the laces color
+      lacesMesh.material.color.set(selectedColor);
+    }
+  });
+
+  soleColorSelect.addEventListener('change', (event) => {
+    const selectedColor = event.target.value;
+
+    if (soleMesh) {
+      // Update the laces color
+      soleMesh.material.color.set(selectedColor);
+    }
+  });
+
+  upperColorSelect.addEventListener('change', (event) => {
+    const selectedColor = event.target.value;
+
+    if (upperMesh) {
+      // Update the laces color
+      upperMesh.material.color.set(selectedColor);
+    }
+  });
+
+  lowerColorSelect.addEventListener('change', (event) => {
+    const selectedColor = event.target.value;
+
+    if (lowerMesh) {
+      // Update the laces color
+      lowerMesh.material.color.set(selectedColor);
+    }
+  });
 	}
 );
 
@@ -129,8 +189,8 @@ const controls = new OrbitControls( camera, renderer.domElement );
 controls.update();
 
 // Add axes
-const axesHelper = new THREE.AxesHelper(5);
-scene.add(axesHelper);
+// const axesHelper = new THREE.AxesHelper(5);
+// scene.add(axesHelper);
 
 // Render the scene
 function animate() {

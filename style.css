@@ -4,21 +4,44 @@
   margin: 0;
 }
 
+body {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
 .app {
   position: relative;
 }
 
 .controls {
   position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  background-color: aliceblue;
+  bottom: 0;
+  left: 50%;
+  width: 90vw;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, .4);
+  color: white;
+  box-shadow: 0 0 16px rgba(105, 255, 71, .4);
   padding: 1rem 1.5rem;
   border-radius: 16px;
-  border: 1px solid gainsboro;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  margin-bottom: 4rem;
+}
+
+.control {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-right: 1rem;
+  gap: .6rem;
+}
+
+.color-options {
+  display: flex;
+  gap: 3rem;
+}
+
+.material-options {
+  display: flex;
+  gap: 3rem;
 }
