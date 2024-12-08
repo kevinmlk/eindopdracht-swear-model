@@ -86,6 +86,9 @@ const loader = new GLTFLoader().setPath( './' );
 loader.load( './scene.gltf', (gltf) => {
 
   const model = gltf.scene;
+  let lacesMesh = null;
+  let soleMesh = null;
+  let upperMesh = null;
 
   // Add dat GUI controls for model position
   const modelPositionFolder = gui.addFolder('Model Position');
@@ -102,6 +105,12 @@ loader.load( './scene.gltf', (gltf) => {
     if (child.isMesh) {
       child.castShadow = true;
       child.receiveShadow = true;
+      console.log(`Mesh Name: ${child.name}`);
+
+      // Identify the laces mesh by its name
+      if (child.name === 'Plane_WhiteSatin_0') { // Replace 'Laces' with the actual name from your model
+        lacesMesh = child;
+      }
 
       if (child.material.map) {
         child.material.envMapIntensity = .5;
@@ -112,6 +121,16 @@ loader.load( './scene.gltf', (gltf) => {
   model.position.set(0, 1.05, -1);
   model.scale.set(0.003, 0.003, 0.003);
   scene.add(model);
+
+  const lacesColorSelect = document.getElementById('laces-color');
+  lacesColorSelect.addEventListener('change', (event) => {
+    const selectedColor = event.target.value;
+
+    if (lacesMesh) {
+      // Update the laces color
+      lacesMesh.material.color.set(selectedColor);
+    }
+  });
 
 	}
 );

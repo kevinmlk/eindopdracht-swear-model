@@ -3,71 +3,95 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
   </head>
   <body>
     <div id="app">
-      <div class="controls">
-        <!-- Shoe size controls -->
-        <div class="control">
-          <label for="shoe-size">Shoe size</label>
-          <input id="shoe-size" type="range" min="1" max="10" value="5">
+      <form action="">
+        <div class="controls">
+          <!-- Shoe size controls -->
+          <div class="control">
+            <label for="shoe-size">Shoe size:</label>
+            <select id="shoe-size" name="shoe-size" type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
+              <option value="37">37</option>
+              <option value="38">38</option>
+              <option value="39">39</option>
+              <option value="40">40</option>
+              <option value="41">41</option>
+              <option value="42">42</option>
+              <option value="43">43</option>
+              <option value="44">44</option>
+              <option value="45">45</option>
+              <option value="46">46</option>
+              <option value="47">47</option>
+            </select>
+          </div>
+          <!-- Shoe color controls -->
+           <div class="color-options">
+            <!-- Laces color -->
+             <div class="control">
+               <label for="laces-color">Laces color</label>
+               <select id="laces-color" name="laces-color">
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="yellow">Yellow</option>
+                <option value="black">Black</option>
+                <option value="white">White</option>
+              </select>
+             </div>
+  
+             <!-- Sole color -->
+             <div class="control">
+               <label for="sole-color">Sole color</label>
+               <input id="sole-color" type="color" value="#000000">
+             </div>
+  
+             <!-- Upper color -->
+             <div class="control">
+               <label for="upper-color">Upper color</label>
+               <input id="upper-color" type="color" value="#ffffff">
+             </div>
+  
+           </div>
+  
+           <!-- Material options -->
+           <div class="material-options">
+            <!-- Laces color -->
+             <div class="control">
+               <label for="laces-material">Laces material</label>
+               <select id="laces-material">
+                 <option value="plastic">Plastic</option>
+                 <option value="metal">Metal</option>
+               </select>
+             </div>
+  
+             <!-- Sole material -->
+             <div class="control">
+               <label for="sole-material">Sole material</label>
+               <select id="sole-material">
+                 <option value="rubber">Rubber</option>
+                 <option value="metal">Metal</option>
+               </select>
+             </div>
+  
+             <!-- Upper material -->
+             <div class="control">
+               <label for="upper-material">Upper material</label>
+               <select id="upper-material">
+                 <option value="plastic">Plastic</option>
+                 <option value="metal">Metal</option>
+               </select>
+             </div>
+  
+           </div>
+  
         </div>
-        <!-- Shoe color controls -->
-         <div class="color-options">
-          <!-- Laces color -->
-           <div class="control">
-             <label for="laces-color">Laces color</label>
-             <input id="laces-color" type="color" value="#ff0000">
-           </div>
 
-           <!-- Sole color -->
-           <div class="control">
-             <label for="sole-color">Sole color</label>
-             <input id="sole-color" type="color" value="#000000">
-           </div>
-
-           <!-- Upper color -->
-           <div class="control">
-             <label for="upper-color">Upper color</label>
-             <input id="upper-color" type="color" value="#ffffff">
-           </div>
-
-         </div>
-
-         <!-- Material options -->
-         <div class="material-options">
-          <!-- Laces color -->
-           <div class="control">
-             <label for="laces-material">Laces material</label>
-             <select id="laces-material">
-               <option value="plastic">Plastic</option>
-               <option value="metal">Metal</option>
-             </select>
-           </div>
-
-           <!-- Sole material -->
-           <div class="control">
-             <label for="sole-material">Sole material</label>
-             <select id="sole-material">
-               <option value="rubber">Rubber</option>
-               <option value="metal">Metal</option>
-             </select>
-           </div>
-
-           <!-- Upper material -->
-           <div class="control">
-             <label for="upper-material">Upper material</label>
-             <select id="upper-material">
-               <option value="plastic">Plastic</option>
-               <option value="metal">Metal</option>
-             </select>
-           </div>
-
-         </div>
-
-      </div>
+      </form>
     </div>
     <script type="module" src="/main.js"></script>
   </body>
