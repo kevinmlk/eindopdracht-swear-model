@@ -89,6 +89,7 @@ loader.load( './scene.gltf', (gltf) => {
   let lacesMesh = null;
   let soleMesh = null;
   let upperMesh = null;
+  let lowerMesh = null;
 
   // Add dat GUI controls for model position
   const modelPositionFolder = gui.addFolder('Model Position');
@@ -108,8 +109,23 @@ loader.load( './scene.gltf', (gltf) => {
       console.log(`Mesh Name: ${child.name}`);
 
       // Identify the laces mesh by its name
-      if (child.name === 'Plane_WhiteSatin_0') { // Replace 'Laces' with the actual name from your model
+      if (child.name === 'Plane_WhiteSatin_0') {
         lacesMesh = child;
+      }
+
+      // Identify the sole mesh by its name
+      if (child.name === 'Cube005_WhiteSole_0') {
+        soleMesh = child;
+      }
+
+      // Identify the upper mesh by its name
+      if (child.name === 'Cube006_WhiteSuede_0') {
+        upperMesh = child;
+      }
+
+      // Identify the lower mesh by its name
+      if (child.name === 'Cube005_WhiteLeather_0') {
+        lowerMesh = child;
       }
 
       if (child.material.map) {
@@ -123,6 +139,10 @@ loader.load( './scene.gltf', (gltf) => {
   scene.add(model);
 
   const lacesColorSelect = document.getElementById('laces-color');
+  const soleColorSelect = document.getElementById('sole-color');
+  const upperColorSelect = document.getElementById('upper-color');
+  const lowerColorSelect = document.getElementById('lower-color');
+
   lacesColorSelect.addEventListener('change', (event) => {
     const selectedColor = event.target.value;
 
@@ -132,6 +152,32 @@ loader.load( './scene.gltf', (gltf) => {
     }
   });
 
+  soleColorSelect.addEventListener('change', (event) => {
+    const selectedColor = event.target.value;
+
+    if (soleMesh) {
+      // Update the laces color
+      soleMesh.material.color.set(selectedColor);
+    }
+  });
+
+  upperColorSelect.addEventListener('change', (event) => {
+    const selectedColor = event.target.value;
+
+    if (upperMesh) {
+      // Update the laces color
+      upperMesh.material.color.set(selectedColor);
+    }
+  });
+
+  lowerColorSelect.addEventListener('change', (event) => {
+    const selectedColor = event.target.value;
+
+    if (lowerMesh) {
+      // Update the laces color
+      lowerMesh.material.color.set(selectedColor);
+    }
+  });
 	}
 );
 
@@ -143,8 +189,8 @@ const controls = new OrbitControls( camera, renderer.domElement );
 controls.update();
 
 // Add axes
-const axesHelper = new THREE.AxesHelper(5);
-scene.add(axesHelper);
+// const axesHelper = new THREE.AxesHelper(5);
+// scene.add(axesHelper);
 
 // Render the scene
 function animate() {
